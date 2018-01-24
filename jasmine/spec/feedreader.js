@@ -20,7 +20,7 @@ $(function () {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
-        
+
         /*
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
@@ -28,6 +28,7 @@ $(function () {
             allFeeds.forEach(function (feed) {
                 expect(feed.url).toBeDefined();
                 expect(feed.url).not.toBeNull();
+                expect(feed.url.length).not.toBe(0);
             });
         });
 
@@ -38,6 +39,7 @@ $(function () {
             allFeeds.forEach(function (feed) {
                 expect(feed.name).toBeDefined();
                 expect(feed.name).not.toBeNull();
+                expect(feed.name.length).not.toBe(0);
             });
         });
     });
@@ -87,7 +89,8 @@ $(function () {
         });
 
         it('at least one .entry with .feed after loadFeed() called', function () {
-            var count = document.querySelector('.feed').getElementsByClassName('entry').length;
+            //var count = document.querySelector('.feed').getElementsByClassName('entry').length;
+            var count = $('.feed .entry').length;
             expect(count).not.toBe(0);
         });
     });
@@ -95,14 +98,12 @@ $(function () {
     /* 写一个叫做 "New Feed Selection" 的测试用例 */
     describe('New Feed Selection', function () {
         var firstFeed;
-        beforeEach(function (done) {
-            loadFeed(0, function () {
-                firstFeed = document.querySelector('.feed').innerHTML;
-                loadFeed(1, function () {
-                    done();
-                });
+        beforeEach(loadFeed(0, function () {
+            firstFeed = document.querySelector('.feed').innerHTML;
+            loadFeed(1, function () {
+                //done();
             });
-        });
+        }));
 
         /*
          * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
